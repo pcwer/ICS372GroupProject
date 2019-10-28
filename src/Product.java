@@ -7,7 +7,10 @@ public class Product {
 	private double price;
 	
 	public Product(String name, int quantity, int minimumLevel, double price) {
-		
+		this.name = name;
+		this.quantity = quantity;
+		this.mininmumLevel = minimumLevel;
+		this.price = price;	
 	}
 
 	public String getProductId() {
@@ -48,8 +51,5 @@ public class Product {
 
 	public boolean setPrice(double price) {
 		this.price = price;
-	}
-	
-	
-	
+	}	
 }
