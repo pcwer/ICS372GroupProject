@@ -19,17 +19,17 @@ public class Inventory {
 	}
 	
 	/**
-     * Checks whether a product with a given product id exists.
+     * Checks whether a product with a given product name exists.
      * 
-     * @param productId
-     *            the id of the product
+     * @param name
+     *            the name of the product
      * @return true iff the product exists
      * 
      */
-	public Product findProduct(String productId) {
+	public Product findProduct(String name) {
 		for (Iterator iterator = productList.iterator(); iterator.hasNext();) {
 			Product product = (Product) iterator.next();
-			if (product.getProductId().equals(productId)) {
+			if (product.getName().equals(name)) {
 				return product;
 			}
 		}

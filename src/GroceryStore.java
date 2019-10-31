@@ -39,13 +39,11 @@ public class GroceryStore implements Serializable {
 	}
 	
 	public boolean addProduct(String name, int quantity, int minimumLevel, double price) {
-		Product product = new Product(name, quantity, minimumLevel, price);
-
-		if (inventory.findProduct(name) ) {
-
+		if (inventory.findProduct(name) == null) {
+			return false;
 		}
 
-
+		Product product = new Product(name, quantity, minimumLevel, price);
 		inventory.addProduct(product);
 		return true;
 	}
@@ -66,23 +64,19 @@ public class GroceryStore implements Serializable {
 	}
 	
 	public boolean changePrice(String productId, double price) {
-		//TODO
 		return true;
 	}
 	
 	public Iterator printTransactions(String memberId, GregorianCalendar startDate, GregorianCalendar endDate) {
-		//TODO
-		return null;
+		return transactionList.getTransactions(memberId, startDate, endDate);
 	}
 	
 	public Iterator listProducts() {
-		//TODO
-		return null;
+		return inventory.getProducts();
 	}
 	
 	public Iterator listMembers() {
-		//TODO
-		return null;
+		return memberList.getMembers();
 	}
 	
 	public boolean save() {
