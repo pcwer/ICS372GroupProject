@@ -16,6 +16,7 @@ public class Product {
 
 	public boolean setProductId(String productId) {
 		this.productId = productId;
+		return true;
 	}
 
 	public String getName() {
@@ -24,6 +25,7 @@ public class Product {
 
 	public boolean setName(String name) {
 		this.name = name;
+		return true;
 	}
 
 	public int getQuantity() {
@@ -32,6 +34,7 @@ public class Product {
 
 	public boolean setQuantity(int quantity) {
 		this.quantity = quantity;
+		return true;
 	}
 
 	public int getMinimumLevel() {
@@ -40,6 +43,7 @@ public class Product {
 
 	public boolean setMinimumLevel(int minimumLevel) {
 		this.minimumLevel = minimumLevel;
+		return true;
 	}
 
 	public double getPrice() {
@@ -48,8 +52,7 @@ public class Product {
 
 	public boolean setPrice(double price) {
 		this.price = price;
+
+		return true;
 	}
-	
-	
-	
 }

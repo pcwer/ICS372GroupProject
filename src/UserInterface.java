@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
  */
 public class UserInterface {
     private static UserInterface userInterface;
+    private static GroceryStore groceryStore;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static final int EXIT = 0;
     private static final int ENROLL_A_MEMBER = 1;
@@ -377,7 +378,6 @@ public class UserInterface {
             case LIST_ALL_PRODUCTS:
                 listAllProducts();
                 break;
-
             case SAVE:
                 save();
                 break;
