@@ -1,31 +1,48 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class MemberList {
-	private LinkedList<Member> members = new LinkedList<Member>();
+	private LinkedList<Member> members;
 	private static MemberList memberList;
 	
 	public static MemberList getInstance() {
-		//TODO
+		if (memberList == null) {
+			memberList = new MemberList();
+		}
+
+		return memberList;
 	}
-	
+
 	private MemberList() {
-		//TODO
 	}
 	
-	private boolean addMember(Member member) {
-		//TODO
+	public boolean addMember(Member member) {
+		return members.add(member);
 	}
 	
-	private boolean removeMember(String memberId) {
-		//TODO
+	public boolean removeMember(String memberId) {
+		for (Member member: members) {
+			if (member.getMemberId().equals(memberId)) {
+				members.remove(member);
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
-	private Member findMember(String memberId) {
-		//TODO
+	public Member findMember(String memberId) {
+		for (Member member: members) {
+			if (member.getMemberId().equals(memberId)) {
+				return member;
+			}
+		}
+
+		return null;
 	}
 	
-	private Iterator getMembers() {
-		//TODO
+	public Iterator getMembers() {
+		return members.iterator();
 	}
 }
 

@@ -18,14 +18,10 @@
  * The authors do not make any claims regarding the correctness of the code in this module
  * and are not responsible for any loss or damage resulting from its use.  
  */
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * 
@@ -38,6 +34,7 @@ public class UserInterface {
     private static UserInterface userInterface;
     private static GroceryStore groceryStore;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final File FILE = new File("./grocery");
     private static final int EXIT = 0;
     private static final int ENROLL_A_MEMBER = 1;
     private static final int REMOVE_A_MEMBER = 2;
@@ -62,6 +59,7 @@ public class UserInterface {
                 +" the functionality using asserts?")) {
             retrieve();
         } else {
+            groceryStore = GroceryStore.getInstance();
         }
     }
 
@@ -95,6 +93,11 @@ public class UserInterface {
                 if (tokenizer.hasMoreTokens()) {
                     return tokenizer.nextToken();
                 }
+
+                /// Why not...?
+                String[] tokens = line.split("\n\r\f");
+
+                return tokens[0];
             } catch (IOException ioe) {
                 System.exit(0);
             }
@@ -119,18 +122,37 @@ public class UserInterface {
 
     /**
      * Converts the string to a number
-     * 
+     *
      * @param prompt
      *            the string for prompting
      * @return the integer corresponding to the string
-     * 
+     *
      */
-    public int getNumber(String prompt) {
+    private int getNumber(String prompt) {
         do {
             try {
                 String item = getToken(prompt);
                 Integer number = Integer.valueOf(item);
-                return number.intValue();
+                return number;
+            } catch (NumberFormatException nfe) {
+                System.out.println("Please input a number ");
+            }
+        } while (true);
+    }
+
+    /**
+     * Converts the string to a double
+     *
+     * @param prompt
+     *            the string for prompting
+     * @return the integer corresponding to the string
+     *
+     */
+    private double getDouble(String prompt) {
+        do {
+            try {
+                String item = getToken(prompt);
+                return Double.parseDouble(item);
             } catch (NumberFormatException nfe) {
                 System.out.println("Please input a number ");
             }
@@ -139,7 +161,7 @@ public class UserInterface {
 
     /**
      * Prompts for a date and gets a date object
-     * 
+     *
      * @param prompt
      *            the prompt
      * @return the data as a Calendar object
@@ -205,8 +227,12 @@ public class UserInterface {
      * member.
      *
      */
-    public void addMember() {
-        System.out.println("addMember: to be implemented");
+    protected void addMember() {
+        String name = getToken("Enter a name:");
+        String address = getToken("Enter address:");
+        int phoneNumber = getNumber("Enter a phone number:");
+        double feePaid = getDouble("Fee Paid:");
+        groceryStore.enrollMember(name, address, phoneNumber, feePaid);
     }
 
     /**
@@ -215,10 +241,10 @@ public class UserInterface {
      * member.
      *
      */
-    public void removeAMember() {
-        System.out.println("removeAMember:to be implemented");
+    protected void removeAMember() {
+        String memberID = getToken("Enter a member ID:");
+        groceryStore.removeMember(memberID);
     }
-
 
     /**
      * Method to be called for retrieving member information. Prompts the user for the
@@ -226,9 +252,14 @@ public class UserInterface {
      * member information.
      * 
      */
-    public void retrieveMemberInfo() {
-        System.out.println("retrieveMemberInfo: To be implemented");
+    protected void retrieveMemberInfo() {
+        String memberName = getToken("Enter a member name:");
+        Iterator members = groceryStore.retrieveMembers(memberName);
 
+        while (members.hasNext()) {
+            Member member = (Member) members.next();
+            System.out.println(member.toString());
+        }
     }
 
     /**
@@ -323,7 +354,7 @@ public class UserInterface {
      * 
      */
     private void save() {
-        System.out.println("save: to be implemented");
+        groceryStore.save();
     }
 
     /**
@@ -332,6 +363,7 @@ public class UserInterface {
      * 
      */
     private void retrieve() {
+        FileInputStream fis = new FileInputStream()
         System.out.println("retrieve: To be implemented");
     }
 

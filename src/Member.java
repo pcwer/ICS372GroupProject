@@ -10,7 +10,11 @@ public class Member {
 	private GregorianCalendar joinDate;
 	
 	public Member(String name, String address, int phoneNumber, double feePaid) {
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.joinDate = new GregorianCalendar();
+		this.feePaid = feePaid;
 	}
 
 	public String getMemberId() {

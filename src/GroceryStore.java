@@ -1,4 +1,4 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,9 +10,7 @@ public class GroceryStore implements Serializable {
 	private TransactionList transactionList;
 	private UserInterface userInterface;
 	
-	private GroceryStore() {
-		//TODO
-	}
+	private GroceryStore() {}
 	
 	public static GroceryStore getInstance() {
 		if (groceryStore == null) {
@@ -24,18 +22,26 @@ public class GroceryStore implements Serializable {
 	
 	public boolean enrollMember(String name, String address, int phoneNumber, double feePaid) {
 		Member member = new Member(name, address, phoneNumber, feePaid);
-		//TODO
+		memberList.addMember(member);
+
 		return true;
 	}
 	
 	public boolean removeMember(String memberId) {
-		//TODO
-		return true;
+		return memberList.removeMember(memberId);
 	}
 	
-	public boolean retrieveMember(String memberId) {
-		//TODO
-		return true;
+	public Iterator retrieveMembers(String memberId) {
+		Iterator members = memberList.getMembers();
+		List<Member> foundMembers = new LinkedList<>();
+
+		while (members.hasNext()) {
+			Member member = (Member) members.next();
+			if (memberId.equals(member.getName())) {
+				foundMembers.add(member);
+			}
+		}
+		return foundMembers.iterator();
 	}
 	
 	public boolean addProduct(String name, int quantity, int minimumLevel, double price) {
@@ -80,18 +86,32 @@ public class GroceryStore implements Serializable {
 	}
 	
 	public boolean save() {
-		//TODO
-		return true;
+		try {
+			FileOutputStream file = new FileOutputStream("GroceryData");
+			ObjectOutputStream output = new ObjectOutputStream(file);
+			output.writeObject(groceryStore);
+			output.writeObject(IdServer.instance());
+			file.close();
+			return true;
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			return false;
+		}
 	}
 	
-	public boolean retrieve() {
-		//TODO
-		return true;
+	public GroceryStore retrieve() {
+		try {
+			FileInputStream file = new FileInputStream("LibraryData");
+			ObjectInputStream input = new ObjectInputStream(file);
+			groceryStore = (GroceryStore) input.readObject();
+			IdServer.retrieve(input);
+			return groceryStore;
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+			return null;
+		}
 	}
-	
-	public boolean exit() {
-		//TODO
-		return true;
-	}
-	
 }
