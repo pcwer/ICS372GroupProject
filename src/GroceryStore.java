@@ -59,9 +59,8 @@ public class GroceryStore implements Serializable {
 		return null;
 	}
 	
-	public Product retrieveProduct(String produceName) {
-		//TODO
-		return null;
+	public Product retrieveProduct(String productName) {
+		return inventory.findProduct(productName);
 	}
 	
 	public boolean processShipment(String productId, int quantity) {
@@ -79,7 +78,7 @@ public class GroceryStore implements Serializable {
 		return product;
 	}
 	
-	public Iterator printTransactions(String memberId, GregorianCalendar startDate, GregorianCalendar endDate) {
+	public Iterator getTransactions(String memberId, Calendar startDate, Calendar endDate) {
 		return transactionList.getTransactions(memberId, startDate, endDate);
 	}
 	

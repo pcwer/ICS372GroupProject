@@ -281,7 +281,34 @@ public class UserInterface {
      * 
      */
     public void checkOut() {
+        Product product;
+
+        boolean notFinished = true;
+        int quantity;
+        String productName;
         String memberId = getToken("Enter the member's ID:");
+
+        // Since member IDs are unique, it will only find one
+        if (!groceryStore.retrieveMembers(memberId).hasNext()) {
+            System.out.println("No Such member.");
+            return;
+        }
+        // Process checkout
+        do {
+            // Find product
+            productName = getToken("Enter the product name:");
+            product = groceryStore.retrieveProduct(productName);
+
+            if (product == null) {
+                System.out.println("Product not found.");
+            } else {
+                quantity = getNumber("Number of items:");
+
+            }
+
+            notFinished = yesOrNo("More items?");
+        } while (notFinished);
+
         groceryStore.checkout(memberId);
 
     }
@@ -331,7 +358,19 @@ public class UserInterface {
      * 
      */
     public void getTransaction() {
-        System.out.println("getTransaction: to be implemented");
+        String memberID = getToken("Enter member id:");
+        Calendar startDate = getDate("Please enter the start date as mm/dd/yy:");
+        Calendar endDate = getDate("Please enter the end date as mm/dd/yy:");
+        Iterator result = groceryStore.getTransactions(memberID, startDate, endDate);
+        if (result == null) {
+            System.out.println("Invalid Member ID");
+        } else {
+            while (result.hasNext()) {
+                Transaction transaction = (Transaction) result.next();
+//                System.out.println(transaction.getType() + "   " + transaction.getTitle() + "\n");
+            }
+            System.out.println("\n  There are no more transactions \n");
+        };
     }
 
     /**

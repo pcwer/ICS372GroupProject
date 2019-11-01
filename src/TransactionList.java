@@ -23,7 +23,7 @@ public class TransactionList implements Serializable {
 		return transactions.add(transaction);
 	}
 	
-	public Iterator getTransactions(String memberId, GregorianCalendar startDate, GregorianCalendar endDate) {
+	public Iterator getTransactions(String memberId, Calendar startDate, Calendar endDate) {
 		LinkedList<Transaction> transactionRange = new LinkedList<>();
 
 		for (Transaction transaction: transactions) {
@@ -31,7 +31,7 @@ public class TransactionList implements Serializable {
 		        break;
             }
 
-			GregorianCalendar date = transaction.getSaleDate();
+			Calendar date = transaction.getSaleDate();
 			if (startDate.get(Calendar.YEAR) > date.get(Calendar.YEAR)
 					&& startDate.get(Calendar.MONTH) > date.get(Calendar.MONTH)
 					&& startDate.get(Calendar.DATE) > date.get(Calendar.DATE)) {
