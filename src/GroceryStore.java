@@ -59,7 +59,7 @@ public class GroceryStore implements Serializable {
 		return null;
 	}
 	
-	public Product retrieveProduct(String productId) {
+	public Product retrieveProduct(String produceName) {
 		//TODO
 		return null;
 	}
@@ -69,8 +69,14 @@ public class GroceryStore implements Serializable {
 		return true;
 	}
 	
-	public boolean changePrice(String productId, double price) {
-		return true;
+	public Product changePrice(String productId, double price) {
+		Product product = inventory.findProduct(productId);
+
+		if (product != null) {
+			product.setPrice(price);
+		}
+
+		return product;
 	}
 	
 	public Iterator printTransactions(String memberId, GregorianCalendar startDate, GregorianCalendar endDate) {
@@ -99,7 +105,7 @@ public class GroceryStore implements Serializable {
 		}
 	}
 	
-	public GroceryStore retrieve() {
+	public static GroceryStore retrieve() {
 		try {
 			FileInputStream file = new FileInputStream("LibraryData");
 			ObjectInputStream input = new ObjectInputStream(file);

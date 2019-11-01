@@ -34,7 +34,7 @@ public class UserInterface {
     private static UserInterface userInterface;
     private static GroceryStore groceryStore;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private static final File FILE = new File("./grocery");
+    private static final File FILE = new File("GroceryData");
     private static final int EXIT = 0;
     private static final int ENROLL_A_MEMBER = 1;
     private static final int REMOVE_A_MEMBER = 2;
@@ -93,11 +93,6 @@ public class UserInterface {
                 if (tokenizer.hasMoreTokens()) {
                     return tokenizer.nextToken();
                 }
-
-                /// Why not...?
-                String[] tokens = line.split("\n\r\f");
-
-                return tokens[0];
             } catch (IOException ioe) {
                 System.exit(0);
             }
@@ -270,8 +265,12 @@ public class UserInterface {
      */
 
     public void addProduct() {
-        System.out.println("addProduct: To be implemented");
+        String name = getToken("Name of the product:");
+        int quantity = getNumber("Stock in hand:");
+        int minimumLevel = getNumber("Minimum reorder level:");
+        double price = getDouble("Current price:");
 
+        groceryStore.addProduct(name, quantity, minimumLevel, price);
     }
 
 
@@ -282,7 +281,8 @@ public class UserInterface {
      * 
      */
     public void checkOut() {
-        System.out.println("checkOut: to be implemented");
+        String memberId = getToken("Enter the member's ID:");
+        groceryStore.checkout(memberId);
 
     }
 
@@ -293,8 +293,9 @@ public class UserInterface {
      * 
      */
     public void retrieveProductInfo() {
-        System.out.println("retrieveProductInfo: to be implemented");
-
+        String productName = getToken("Enter a product name:");
+        Product product = groceryStore.retrieveProduct(productName);
+        System.out.println(product.toString());
     }
 
     /**
@@ -304,6 +305,7 @@ public class UserInterface {
      * 
      */
     public void processShipment() {
+        // Loop to manipulate inventory
         System.out.println("processShipment: to be implemented");
     }
 
@@ -314,7 +316,11 @@ public class UserInterface {
      * 
      */
     public void changePrice() {
-        System.out.println("changePrice: to be implemented");
+        String productId = getToken("Enter the product ID");
+        double price = getDouble("Enter a new price for the product:");
+        Product product = groceryStore.changePrice(productId, price);
+
+        System.out.println();
     }
 
     /**
@@ -354,7 +360,11 @@ public class UserInterface {
      * 
      */
     private void save() {
-        groceryStore.save();
+        if (groceryStore.save()) {
+            System.out.println(String.format("The grocery has been successfully saved in the file %s \n", FILE.toString()));
+        } else {
+            System.out.println(" There has been an error in saving \n");
+        }
     }
 
     /**
@@ -363,8 +373,19 @@ public class UserInterface {
      * 
      */
     private void retrieve() {
-        FileInputStream fis = new FileInputStream()
-        System.out.println("retrieve: To be implemented");
+        try {
+            if (groceryStore == null) {
+                groceryStore = GroceryStore.retrieve();
+                if (groceryStore != null) {
+                    System.out.println(" The library has been successfully retrieved from the file LibraryData \n");
+                } else {
+                    System.out.println("File doesnt exist; creating new library");
+                    groceryStore = GroceryStore.getInstance();
+                }
+            }
+        } catch (Exception cnfe) {
+            cnfe.printStackTrace();
+        }
     }
 
     /**

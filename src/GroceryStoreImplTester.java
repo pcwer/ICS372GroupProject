@@ -19,7 +19,7 @@ public class GorceryStoreImplTester {
 //		assert (groceryStore.processShipment(productId, quantity));
 //		assert (groceryStore.changePrice(productId));
 	
-		assert (groceryStore.retrieve());
-		assert (groceryStore.save());
+//		assert (groceryStore.retrieve());
+//		assert (groceryStore.save());
 	}
 }
