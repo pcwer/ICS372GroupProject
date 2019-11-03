@@ -7,16 +7,15 @@ public class Product {
 	private double price;
 	
 	public Product(String name, int quantity, int minimumLevel, double price) {
-		
+		this.productId = String.format("P%d", IdServer.getInstance().getProductId());
+		this.name = name;
+		this.quantity = quantity;
+		this.minimumLevel = minimumLevel;
+		this.price = price;
 	}
 
 	public String getProductId() {
 		return productId;
-	}
-
-	public boolean setProductId(String productId) {
-		this.productId = productId;
-		return true;
 	}
 
 	public String getName() {
@@ -32,27 +31,23 @@ public class Product {
 		return quantity;
 	}
 
-	public boolean setQuantity(int quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-		return true;
 	}
 
 	public int getMinimumLevel() {
 		return minimumLevel;
 	}
 
-	public boolean setMinimumLevel(int minimumLevel) {
+	public void setMinimumLevel(int minimumLevel) {
 		this.minimumLevel = minimumLevel;
-		return true;
 	}
 
 	public double getPrice() {
 		return price;
 	}
 
-	public boolean setPrice(double price) {
+	public void setPrice(double price) {
 		this.price = price;
-
-		return true;
 	}
 }

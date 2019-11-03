@@ -1,4 +1,8 @@
-
+/**
+ * Representation of a single product calculated in a transaction. The line item
+ * includes the
+ * @author David Tran
+ */
 public class LineItem {
 	private Product product;
 	private int quantity;
@@ -8,20 +12,20 @@ public class LineItem {
 		this.product = product;
 		this.quantity = quantity;
 		this.totalPrice = calculateTotalPrice(product, quantity);
+
+		adjustProductQuantity(product, quantity);
 	}
 	
 	private double calculateTotalPrice(Product product, int quantity) {
 		double totalPrice = product.getPrice() * quantity;
 
-		assert(adjustProductQuantity(product, quantity));
-
 		return totalPrice;
 	}
 
-	private boolean adjustProductQuantity(Product product, int quantity) {
+	private void adjustProductQuantity(Product product, int quantity) {
 		int newQuantity = product.getQuantity() - quantity;
 
-		return product.setQuantity(newQuantity);
+		product.setQuantity(newQuantity);
 	}
 
 	public Product getProduct() {
@@ -30,24 +34,6 @@ public class LineItem {
 	
 	public int getQuantity() {
 		return quantity;
-	}
-	
-	public boolean setProduct(Product product) {
-		if (product != null) {
-			this.product = product;
-			return true;
-		}
-
-		return false;
-	}
-	
-	public boolean setQuantity(int quantity) {
-		if (quantity >= 0) {
-			this.quantity = quantity;
-			return true;
-		}
-
-		return false;
 	}
 	
 	public double getTotalPrice() {
@@ -60,6 +46,6 @@ public class LineItem {
 		int quantity = product.getQuantity();
 		double price = product.getPrice();
 
-		return String.format("%s %d $%1.2f $%1.2f", name, quantity, price, totalPrice);
+		return String.format("%s %d $%1.2f $%1.2f %n", name, quantity, price, totalPrice);
 	}
 }

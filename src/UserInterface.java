@@ -107,7 +107,7 @@ public class UserInterface {
      * @return true for yes and false for no
      * 
      */
-    private boolean yesOrNo(String prompt) {
+    public boolean yesOrNo(String prompt) {
         String more = getToken(prompt + " (Y|y)[es] or anything else for no");
         if (more.charAt(0) != 'y' && more.charAt(0) != 'Y') {
             return false;
@@ -123,7 +123,7 @@ public class UserInterface {
      * @return the integer corresponding to the string
      *
      */
-    private int getNumber(String prompt) {
+    public int getNumber(String prompt) {
         do {
             try {
                 String item = getToken(prompt);
@@ -143,7 +143,7 @@ public class UserInterface {
      * @return the integer corresponding to the string
      *
      */
-    private double getDouble(String prompt) {
+    public double getDouble(String prompt) {
         do {
             try {
                 String item = getToken(prompt);
@@ -281,36 +281,18 @@ public class UserInterface {
      * 
      */
     public void checkOut() {
-        Product product;
+        int result = groceryStore.checkout();
 
-        boolean notFinished = true;
-        int quantity;
-        String productName;
-        String memberId = getToken("Enter the member's ID:");
-
-        // Since member IDs are unique, it will only find one
-        if (!groceryStore.retrieveMembers(memberId).hasNext()) {
-            System.out.println("No Such member.");
-            return;
+        switch (result) {
+            case GroceryStore.MEMBER_NOT_FOUND:
+                notify("Member not found.");
+                break;
+            case GroceryStore.BAD_TRANSACTION:
+                notify("Transaction failed to record.");
+                break;
+            default:
+                notify("An error has occurred.");
         }
-        // Process checkout
-        do {
-            // Find product
-            productName = getToken("Enter the product name:");
-            product = groceryStore.retrieveProduct(productName);
-
-            if (product == null) {
-                System.out.println("Product not found.");
-            } else {
-                quantity = getNumber("Number of items:");
-
-            }
-
-            notFinished = yesOrNo("More items?");
-        } while (notFinished);
-
-        groceryStore.checkout(memberId);
-
     }
 
     /**
@@ -373,6 +355,8 @@ public class UserInterface {
         };
     }
 
+
+
     /**
      * Method to be called for listing all members. Prompts the user for the
      * appropriate values and uses the appropriate grocery store method for listing
@@ -391,6 +375,14 @@ public class UserInterface {
      */
     public void listAllProducts() {
         System.out.println("listAllProducts: to be implemented");
+    }
+
+    /**
+     * Method to send a message to the user's console.
+     * @param message message to send
+     */
+    public void notify(String message) {
+        System.out.println(message);
     }
 
     /**

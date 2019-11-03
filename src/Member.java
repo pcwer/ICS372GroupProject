@@ -10,6 +10,7 @@ public class Member {
 	private GregorianCalendar joinDate;
 	
 	public Member(String name, String address, int phoneNumber, double feePaid) {
+		this.memberId = String.format("M%d", IdServer.getInstance().getMemberId());
 		this.name = name;
 		this.address = address;
 		this.phoneNumber = phoneNumber;

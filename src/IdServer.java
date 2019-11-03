@@ -21,7 +21,6 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * Generates member ids.
@@ -31,7 +30,7 @@ import java.util.UUID;
  */
 public class IdServer implements Serializable {
     private int productIdCounter;
-    private int membertIdCounter;
+    private int memberIdCounter;
     private static IdServer server;
 
     /*
@@ -39,7 +38,7 @@ public class IdServer implements Serializable {
      * 
      */
     private IdServer() {
-        membertIdCounter = 1;
+        memberIdCounter = 1;
         productIdCounter = 1;
     }
 
@@ -48,7 +47,7 @@ public class IdServer implements Serializable {
      * 
      * @return the singleton object
      */
-    public static IdServer instance() {
+    public static IdServer getInstance() {
         if (server == null) {
             return (server = new IdServer());
         } else {
@@ -71,7 +70,7 @@ public class IdServer implements Serializable {
      * @return id of the member
      */
     public int getMemberId() {
-        return membertIdCounter++;
+        return memberIdCounter++;
     }
     /**
      * String form of the collection
@@ -79,7 +78,7 @@ public class IdServer implements Serializable {
      */
     @Override
     public String toString() {
-        return String.format("Product Id: %d, Member Id: %d", productIdCounter, membertIdCounter);
+        return String.format("Product Id: %d, Member Id: %d", productIdCounter, memberIdCounter);
     }
 
     /**
